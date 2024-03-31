@@ -22,8 +22,7 @@ public:
     float getDaysFee() const{
         return daysFee;
     }
-    void display()
-    {
+    void display() const {
         cout << " " << type << " : " << make << "\n";
         cout << "    " << model << "(Speed: " << speed << " km/hr)"
              << "\n";
@@ -49,37 +48,23 @@ public:
         : Vehicle("Truck", tmake, tmodel, tspeed, tdaysFee){};
 };
 
-class Rental
-{
+class Rental{
 private:
     int daysRented;
     string status;
     float fee;
-    vector<Vehicle*> vehicles;
+    const Vehicle& vehicle;
 
 public:
-    /*
-    Rental(const string& vmake, const string& vmodel, const int& vspeed, const double& vdaysFee)
-    : Vehicle (vmake, vmodel, vspeed) {
+    Rental(const Vehicle& vehicle): vehicle(vehicle){
         this -> setStatus("Available");
-        this -> setDaysFee(vdaysFee);
-    };
-    */
+    }
 
     // setter
-    void addVehicle(Vehicle* vehicle)
-    {
-        vehicles.push_back(vehicle);
-        setStatus("Available");
-    }
-
-    void setDaysRented(const int &days)
-    {
+    void setDaysRented(const int &days){
         daysRented = days;
     }
-
-    void setStatus(const string &stat)
-    {
+    void setStatus(const string &stat){
         this->status = stat;
     }
 
@@ -87,73 +72,26 @@ public:
     string getStatus(){
         return status;
     }
-    
+    string getType(){
+        return vehicle.getType();
+    }
+
     // display
-    void displaytype()
-    {
-        
+    void displaytype(){
+        vehicle.display();
         cout << "    Status: " << status << endl;
     }
-    // Rental(const string& vmake, const string& vmodel, const double vfee  ) : Vehicle (vmake, vmodel) {}
+
 };
-/*
-class Customer
-{
-    // customer with name and have list of rented movies
-private:
-    string name;
-    vector<Rental> rentedVehicles;
 
-public:
-    Customer(const string &n) : name(n) {}
-
-    string getName() const
-    {
-        return name;
-    }
-    // method to add the movie to personal list as well as flag it in the personal list
-    void rentedMovie(Rental &vehicle, const int &days)
-    {
-        vehicle.setDaysRented(days);
-        vehicle.setStatus("rented");
-        rentedVehicles.push_back(vehicle);
-    }
-
-    // display all the movies in personal rented list, using loops and display()
-    void displayRentals() const
-    {
-        cout << "Name: " << name << endl;
-        cout << "================" << endl;
-        double totalFees = 0;
-        for (Rental vehicle : rentedVehicles)
-        {
-            vehicle.display();
-            cout << "Rental fee: $" << vehicle.rentalFee() << endl;
-            cout << "============================" << endl;
-            totalFees += vehicle.rentalFee();
-        }
-        cout << "Fee sum: $" << totalFees << endl;
-    }
-    // more getters
-    Rental getRentedMovie(const int &index) const
-    {
-        return rentedVehicles[index];
-    }
-    int getRentedMoviesCount() const
-    {
-        return rentedVehicles.size();
-    }
-};
-*/
 
 // main funtion initalize
 void displayMenu();
 void displayVehicleType();
-void displayVehicle(const vector<Vehicle> &vehicles, const string& vtype);
+void displayVehicle(const vector<Rental> &vehicles, const string& vtype);
 int main()
 {
-    Rental rental;
-    vector<Vehicle> vehicles;
+    vector<Rental> vehicles;
     Car car1("Sedan", "Toyota Corolla", 120, 50);
     Car car2("SUV", "Honda CR-V", 110, 65);
     Car car3("Sports car", "BMW M4", 180, 200);
@@ -183,7 +121,7 @@ int main()
     while (!exit){
         displayMenu();
         cin >> choice;
-        if(choice >= 0 && choice <=3){
+        if(choice >= 0 && choice <=4){
             switch (choice)
             {
             case 0:
@@ -212,18 +150,20 @@ int main()
                         break;
                     }
                 }
-                
+                break;
+            case 2:
 
+                break;
+            case 3:
+
+                break;
             default:
                 break;
             }
         }else{
             cout << "Invalid choice" << endl;
         }
-
     }
-    
-
     return 0;
 }
 
@@ -234,6 +174,7 @@ void displayMenu()
     cout << "What would you like to do?" << endl;
     cout << "1. Rent Vehicle" << endl;
     cout << "2. Return Vehicle" << endl;
+    cout << "3. View Rented Vehicle" << endl;
     cout << "0. Exit" << endl;
     cout << "\n Enter a choice from menu: ";
 
@@ -248,16 +189,16 @@ void displayVehicleType(){
 void rentVehicle(){
 
 }
-void displayVehicle(const vector<Vehicle> &vehicles, const string& vtype){
-    vector<Vehicle> vehicleList; 
+void displayVehicle(const vector<Rental>& vehicles, const string& vtype){
+    vector<Rental> vehicleList; 
     int i = 1;
     // looping and display all details, using rental member function display
-    for (Vehicle vehicle : vehicles)
+    for (Rental vehicle : vehicles)
     {
         if( vehicle.getType() == vtype ){
         cout << "    --------------" << endl;
         cout << i << ". ";
-        vehicle.display();
+        vehicle.displaytype();
         vehicleList.push_back(vehicle);
         i++;
         }
