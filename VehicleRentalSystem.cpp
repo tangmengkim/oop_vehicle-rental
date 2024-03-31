@@ -2,6 +2,19 @@
 #include <vector>
 #include <string>
 using namespace std;
+class Customer {
+    private:
+        string name;
+    public:
+    Customer(const string& cname)
+        :name(cname){}      
+    string getname() const { return name; }
+    
+    void customerInformation(){
+        cout << "Enter Your Name Here: ";
+        cin >> name;
+    }
+};
 
 class Vehicle {
     private:
@@ -69,6 +82,9 @@ class Rental : public Vehicle {
 void display(const vector<Vehicle>& vehicles);
 
 int main(){
+    Customer customer("Customer");
+    customer.customerInformation();
+    
     vector<Vehicle> vehicles;
     
     Car car1("Sedan", "Toyota Corolla", 120, 50);
@@ -103,4 +119,4 @@ void display(const vector<Vehicle>& vehicles){
         trucks.display();
         i++;
     }
-}
+};
