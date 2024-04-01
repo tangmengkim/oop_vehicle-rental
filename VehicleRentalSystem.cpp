@@ -7,11 +7,10 @@ class Customer {
     private:
         string name;
     public:
-    Customer(const string& cname)
-        :name(cname){}      
+    Customer(const string& cname):name(cname){}      
     string getname() const { return name; }
     
-    void customerInformation(){
+    void Information(){
         cout << "Enter Your Name Here: ";
         cin >> name;
     }
@@ -38,7 +37,7 @@ public:
     void display() const {
         cout << " " << type << " : " << make << "\n";
         cout << "    " << model << "(Speed: " << speed << " km/hr)"
-             << "\n";
+            << "\n";
         cout << "    Rent/day: $" << daysFee << endl;
     }
 };
@@ -105,7 +104,7 @@ void displayVehicle(const vector<Rental> &vehicles, const string& vtype);
 
 int main(){
     Customer customer("Customer");
-    customer.customerInformation();
+    customer.Information();
 
     vector<Rental> vehicles;
     Car car1("Sedan", "Toyota Corolla", 120, 50);
