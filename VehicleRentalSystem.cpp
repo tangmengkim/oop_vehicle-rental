@@ -38,7 +38,7 @@ public:
     void display() const {
         cout << " " << type << " : " << make << "\n";
         cout << "    " << model << "(Speed: " << speed << " km/hr)"
-             << "\n";
+            << "\n";
         cout << "    Rent/day: $" << daysFee << endl;
     }
 };
