@@ -90,10 +90,12 @@ public:
 class Customer {
     private:
         string name;
-        const vector<Rental> rentedVehicle;
+        vector<Rental> rentedVehicle;
     public:
     Customer(const string& cname) :name(cname){}      
-    string getname() const { return name; }
+
+
+    string getName() const { return name; }
     
     void customerInformation(){
         cout << "Enter Your Name Here: ";
@@ -101,15 +103,17 @@ class Customer {
     }
 };
 
-// main funtion initalize
+// main funtion initializer
 void displayMenu();
 void displayVehicleType();
 void displayVehicle(const vector<Rental>& vehicles, const string& vtype);
 void selecVehicleType(const vector<Rental>& vehicles, const int& Vtype);
+bool openShop();
 
 int main(){
     Customer customer("Customer");
-    customer.customerInformation();
+    // customer.customerInformation();
+    cout << customer.getName();
 
     vector<Rental> vehicles;
 
@@ -137,12 +141,16 @@ int main(){
 
     int choice;
     bool explore = true;
-    bool exit = false;
+    while(openShop()){
 
+    };
+
+    bool exit = false;
     while (!exit){
+
         displayMenu();
         cin >> choice;
-        if(choice >= 0 && choice <=4){
+        if(choice >= 0 && choice <4){
             switch (choice)
             {
             case 0:
@@ -228,4 +236,8 @@ if (Vtype > 0 && Vtype <= 3){
 }
 void rentVehicle(){
 
+}
+bool openShop(){
+    string customerName;
+    
 }
