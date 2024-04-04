@@ -3,19 +3,6 @@
 #include <string>
 using namespace std;
 
-class Customer {
-    private:
-        string name;
-    public:
-    Customer(const string& cname)
-        :name(cname){}      
-    string getname() const { return name; }
-    
-    void customerInformation(){
-        cout << "Enter Your Name Here: ";
-        cin >> name;
-    }
-};
 
 class Vehicle{
 private:
@@ -26,6 +13,7 @@ private:
 public:
     Vehicle(const string &vtype, const string &vmake, const string &vmodel, const int &vspeed, const float &vdaysFee)
         : type(vtype), make(vmake), model(vmodel), speed(vspeed), daysFee(vdaysFee) {}
+    
     string getType() const{
         return type;
     }
@@ -35,6 +23,7 @@ public:
     float getDaysFee() const{
         return daysFee;
     }
+
     void display() const {
         cout << " " << type << " : " << make << "\n";
         cout << "    " << model << "(Speed: " << speed << " km/hr)"
@@ -42,11 +31,11 @@ public:
         cout << "    Rent/day: $" << daysFee << endl;
     }
 };
-class Car : public Vehicle
-{
+class Car : public Vehicle{
 public:
     Car(const string &cmake, const string &cmodel, const int &cspeed, const double &cdaysFee)
         : Vehicle("Car", cmake, cmodel, cspeed, cdaysFee){};
+
 };
 class Motobike : public Vehicle
 {
@@ -83,7 +72,7 @@ public:
 
     // getter
     string getStatus(){
-        return status;
+        return this -> status;
     }
     string getType(){
         return vehicle.getType();
@@ -94,24 +83,44 @@ public:
         vehicle.display();
         cout << "    Status: " << status << endl;
     }
+    // function
 
+    
+};
+class Customer {
+    private:
+        string name;
+        vector<Rental> rentedVehicle;
+    public:
+    Customer(const string& cname) :name(cname){}      
+
+
+    string getName() const { return name; }
+    
+    void customerInformation(){
+        cout << "Enter Your Name Here: ";
+        cin >> name;
+    }
 };
 
-
-// main funtion initalize
+// main funtion initializer
 void displayMenu();
 void displayVehicleType();
-void displayVehicle(const vector<Rental> &vehicles, const string& vtype);
+void displayVehicle(const vector<Rental>& vehicles, const string& vtype);
+void selecVehicleType(const vector<Rental>& vehicles, const int& Vtype);
+bool openShop();
 
 int main(){
     Customer customer("Customer");
-    customer.customerInformation();
+    // customer.customerInformation();
+    cout << customer.getName();
 
     vector<Rental> vehicles;
+
     Car car1("Sedan", "Toyota Corolla", 120, 50);
     Car car2("SUV", "Honda CR-V", 110, 65);
     Car car3("Sports car", "BMW M4", 180, 200);
-
+    //Vehicle* motobike4 = new Motobike("Dirt bike", "Harley-Davidson", 80, 35);
     Motobike motobike1("Dirt bike", "Harley-Davidson", 80, 35);
     Motobike motobike2("Cruiser", "Yamaha R1", 170, 120);
     Motobike motobike3("Sport bike", "Kawasaki KX250F", 120, 35);
@@ -132,12 +141,16 @@ int main(){
 
     int choice;
     bool explore = true;
-    bool exit = false;
+    while(openShop()){
 
+    };
+
+    bool exit = false;
     while (!exit){
+
         displayMenu();
         cin >> choice;
-        if(choice >= 0 && choice <=4){
+        if(choice >= 0 && choice <4){
             switch (choice)
             {
             case 0:
@@ -149,23 +162,7 @@ int main(){
                 displayVehicleType();
                 int Vtype;
                 cin >> Vtype;
-                if (Vtype >0 && Vtype <=3){
-                    switch (Vtype)
-                    {
-                    case 1:
-                        displayVehicle(vehicles,"Car");
-                        break;
-                    case 2:
-                        displayVehicle(vehicles,"Motobike");
-                        break;
-                    case 3:
-                        displayVehicle(vehicles,"Truck");
-                        break;
-                    
-                    default:
-                        break;
-                    }
-                }
+                selecVehicleType(vehicles,Vtype);
                 break;
             case 2:
 
@@ -202,9 +199,6 @@ void displayVehicleType(){
     cout << "3. Truck" << endl;
     cout << "\n Enter a choice from menu: ";
 }
-void rentVehicle(){
-
-}
 void displayVehicle(const vector<Rental>& vehicles, const string& vtype){
     vector<Rental> vehicleList; 
     int i = 1;
@@ -221,4 +215,29 @@ void displayVehicle(const vector<Rental>& vehicles, const string& vtype){
     }
 
 }
+void selecVehicleType(const vector<Rental>& vehicles, const int& Vtype){
+if (Vtype > 0 && Vtype <= 3){
+                    switch (Vtype)
+                    {
+                    case 1:
+                        displayVehicle(vehicles,"Car");
+                        break;
+                    case 2:
+                        displayVehicle(vehicles,"Motobike");
+                        break;
+                    case 3:
+                        displayVehicle(vehicles,"Truck");
+                        break;
+                    
+                    default:
+                        break;
+                    }
+                }
+}
+void rentVehicle(){
 
+}
+bool openShop(){
+    string customerName;
+    
+}
