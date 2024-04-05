@@ -6,17 +6,16 @@ using namespace std;
 
 class Vehicle{
 private:
-    string type, make, model;
+    string make, model;
     int speed;
     float daysFee;
 
 public:
-    Vehicle(const string &vtype, const string &vmake, const string &vmodel, const int &vspeed, const float &vdaysFee)
-        : type(vtype), make(vmake), model(vmodel), speed(vspeed), daysFee(vdaysFee) {}
+    Vehicle(const string &vmake, const string &vmodel, const int &vspeed, const float &vdaysFee)
+        : make(vmake), model(vmodel), speed(vspeed), daysFee(vdaysFee) {}
     
-    string getType() const{
-        return type;
-    }
+    virtual string getType() const = 0 ;
+
     string getModel() const{
         return model;
     }
@@ -25,29 +24,43 @@ public:
     }
 
     void display() const {
-        cout << " " << type << " : " << make << "\n";
+        cout << " " << make << "\n";
         cout << "    " << model << "(Speed: " << speed << " km/hr)"
              << "\n";
         cout << "    Rent/day: $" << daysFee << endl;
     }
 };
 class Car : public Vehicle{
+private:
+    string type;
 public:
     Car(const string &cmake, const string &cmodel, const int &cspeed, const double &cdaysFee)
-        : Vehicle("Car", cmake, cmodel, cspeed, cdaysFee){};
-
+        : Vehicle(cmake, cmodel, cspeed, cdaysFee){
+            this -> type = "Car";
+        };
+    string getType() const override { return type; }
 };
-class Motobike : public Vehicle
-{
+
+class Motobike : public Vehicle{
+private:
+    string type;
 public:
     Motobike(const string &mmake, const string &mmodel, const int &mspeed, const double &mdaysFee)
-        : Vehicle("Motobike", mmake, mmodel, mspeed, mdaysFee){};
+        : Vehicle(mmake, mmodel, mspeed, mdaysFee){
+            this -> type = "Motobike";
+        };
+    //override
+    string getType() const override { return type; }
 };
-class Truck : public Vehicle
-{
+class Truck : public Vehicle {
+private:
+    string type;
 public:
     Truck(const string &tmake, const string &tmodel, const int &tspeed, const double &tdaysFee)
-        : Vehicle("Truck", tmake, tmodel, tspeed, tdaysFee){};
+        : Vehicle(tmake, tmodel, tspeed, tdaysFee){
+            this -> type = "Truck";
+        };
+    string getType() const override { return type; }
 };
 
 class Rental{
@@ -77,7 +90,6 @@ public:
         return vehicle -> getType();
     }
     
-
     // display
     void displaytype(){
         vehicle -> display();
@@ -107,9 +119,9 @@ class Customer {
 
 // main funtion initializer
 void displayMenu();
-void displayVehicleType();
+vector<string> allVehicleType(const vector<Rental>& vehicles);
 void displayVehicle(const vector<Rental>& vehicles, const string& vtype);
-void selecVehicleType(const vector<Rental>& vehicles, const int& Vtype);
+void selecVehicleType(const vector<Rental>& vehicles);
 bool openShop();
 
 int main(){
@@ -122,7 +134,7 @@ int main(){
     Car car1("Sedan", "Toyota Corolla", 120, 50);
     Car car2("SUV", "Honda CR-V", 110, 65);
     Car car3("Sports car", "BMW M4", 180, 200);
-    //Vehicle* motobike4 = new Motobike("Dirt bike", "Harley-Davidson", 80, 35);
+
     Motobike motobike1("Dirt bike", "Harley-Davidson", 80, 35);
     Motobike motobike2("Cruiser", "Yamaha R1", 170, 120);
     Motobike motobike3("Sport bike", "Kawasaki KX250F", 120, 35);
@@ -161,10 +173,7 @@ int main(){
                 break;
             case 1:
                 cout << "Selected \"Rent Vehicle\": "<< endl;
-                displayVehicleType();
-                int Vtype;
-                cin >> Vtype;
-                selecVehicleType(vehicles,Vtype);
+                selecVehicleType(vehicles);
                 break;
             case 2:
 
@@ -194,12 +203,19 @@ void displayMenu()
     cout << "\n Enter a choice from menu: ";
 
 }
-void displayVehicleType(){
-    cout << endl;
-    cout << "1. Car" << endl;
-    cout << "2. Motobike" << endl;
-    cout << "3. Truck" << endl;
-    cout << "\n Enter a choice from menu: ";
+vector<string> allVehicleType(const vector<Rental>& vehicles){
+    // Create a vector to store unique types
+    vector<string> Vtype;
+    for (const Rental& vehicle: vehicles){
+        string types = vehicle.getType();
+
+        // Check if the type is not already in the vector
+        if (find(Vtype.begin(),Vtype.end(),types) == Vtype.end()){
+            // If not found, display the type and add it to the vector
+            Vtype.push_back(types);
+        }
+    };
+    return Vtype;
 }
 void displayVehicle(const vector<Rental>& vehicles, const string& vtype){
     vector<Rental> vehicleList; 
@@ -217,23 +233,20 @@ void displayVehicle(const vector<Rental>& vehicles, const string& vtype){
     }
 
 }
-void selecVehicleType(const vector<Rental>& vehicles, const int& Vtype){
-if (Vtype > 0 && Vtype <= 3){
-                    switch (Vtype)
-                    {
-                    case 1:
-                        displayVehicle(vehicles,"Car");
-                        break;
-                    case 2:
-                        displayVehicle(vehicles,"Motobike");
-                        break;
-                    case 3:
-                        displayVehicle(vehicles,"Truck");
-                        break;
-                    
-                    default:
-                        break;
-                    }
+void displayType (const vector<string> types){
+    for (int i = 1; i <= types.size(); i++){
+        cout << i << ". "<< types[i-1] <<endl;
+    }
+}
+void selecVehicleType(const vector<Rental>& vehicles){
+    int Vtype;
+    vector<string> types = allVehicleType(vehicles);
+    displayType(types);
+    cout << "type size = "<< types.size() <<endl;
+    cout << "Enter Number: "; cin >> Vtype;
+    
+    if (Vtype <= types.size() && Vtype <= types.size()){
+        cout<<"true";
                 }
 }
 void rentVehicle(){
