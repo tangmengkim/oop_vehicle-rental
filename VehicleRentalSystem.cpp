@@ -119,9 +119,11 @@ class Customer {
 
 // main funtion initializer
 void displayMenu();
+int getIntInput();
 vector<string> allVehicleType(const vector<Rental>& vehicles);
-void displayVehicle(const vector<Rental>& vehicles, const string& vtype);
-void selecVehicleType(const vector<Rental>& vehicles);
+void selectVehicle(const vector<Rental>& vehicles, const string& vtype);
+void rentalVehicle(const vector<Rental>& vehicles);
+void displayType (const vector<string> types);
 bool openShop();
 
 int main(){
@@ -164,7 +166,7 @@ int main(){
 
         displayMenu();
         cin >> choice;
-        if(choice >= 0 && choice <4){
+        if(choice >= 0 && choice < 4){
             switch (choice)
             {
             case 0:
@@ -173,7 +175,7 @@ int main(){
                 break;
             case 1:
                 cout << "Selected \"Rent Vehicle\": "<< endl;
-                selecVehicleType(vehicles);
+                rentalVehicle(vehicles);
                 break;
             case 2:
 
@@ -182,6 +184,7 @@ int main(){
 
                 break;
             default:
+                exit = true;
                 break;
             }
         }else{
@@ -203,6 +206,53 @@ void displayMenu()
     cout << "\n Enter a choice from menu: ";
 
 }
+void rentalVehicle(const vector<Rental>& vehicles){
+    vector<string> types = allVehicleType(vehicles);
+    displayType(types);
+    cout << "type size = "<< types.size() <<endl;
+    cout << "Enter Number: "; 
+    int choosetype = getIntInput();
+
+    if (choosetype > 0 && choosetype <= types.size()){
+        string type = types[choosetype - 1];
+        selectVehicle(vehicles,type);
+        return;
+    }         
+}
+
+void displayType (const vector<string> types){
+    for (int i = 1; i <= types.size(); i++){
+        cout << i << ". "<< types[i-1] <<endl;
+    }
+}
+
+void selectVehicle(const vector<Rental>& vehicles, const string& vtype){
+    vector<Rental> vehicleList; 
+    int i = 1;
+    // looping and display all details, using rental member function display
+    for (Rental vehicle : vehicles)
+    {
+        if( vehicle.getType() == vtype ){
+        cout << "    --------------" << endl;
+        cout << i << ". ";
+        vehicle.displaytype();
+        vehicleList.push_back(vehicle);
+        i++;
+        }
+    }
+    cout << "Choose " << vtype << " you want to rent :";
+        int chooseList = getIntInput();
+    if (chooseList > 0 && chooseList <= vehicleList.size()){
+        cout << "okay" << endl;
+
+        
+    }else{
+        chooseList = 1;
+    cout<<"no";
+    }
+}
+
+
 vector<string> allVehicleType(const vector<Rental>& vehicles){
     // Create a vector to store unique types
     vector<string> Vtype;
@@ -217,42 +267,26 @@ vector<string> allVehicleType(const vector<Rental>& vehicles){
     };
     return Vtype;
 }
-void displayVehicle(const vector<Rental>& vehicles, const string& vtype){
-    vector<Rental> vehicleList; 
-    int i = 1;
-    // looping and display all details, using rental member function display
-    for (Rental vehicle : vehicles)
-    {
-        if( vehicle.getType() == vtype ){
-        cout << "    --------------" << endl;
-        cout << i << ". ";
-        vehicle.displaytype();
-        vehicleList.push_back(vehicle);
-        i++;
-        }
-    }
 
-}
-void displayType (const vector<string> types){
-    for (int i = 1; i <= types.size(); i++){
-        cout << i << ". "<< types[i-1] <<endl;
-    }
-}
-void selecVehicleType(const vector<Rental>& vehicles){
-    int Vtype;
-    vector<string> types = allVehicleType(vehicles);
-    displayType(types);
-    cout << "type size = "<< types.size() <<endl;
-    cout << "Enter Number: "; cin >> Vtype;
-    
-    if (Vtype <= types.size() && Vtype <= types.size()){
-        cout<<"true";
-                }
-}
-void rentVehicle(){
-
-}
 bool openShop(){
     string customerName;
     
+}
+// Function to validate integer input
+int getIntInput() {
+    int i;
+    while (true) {
+        cin >> i;
+        // Check if the input operation failed
+        if (cin.fail()) {
+            // Clear the error flag
+            cin.clear();
+            // Discard the invalid input
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            // Notify the user of the error
+        } else {
+            // Input operation succeeded, return the integer
+            return i;
+        }
+    }
 }
