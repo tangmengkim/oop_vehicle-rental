@@ -54,11 +54,10 @@ class Rental{
 private:
     int daysRented;
     string status;
-    float fee;
-    const Vehicle& vehicle;
+    Vehicle* vehicle;
 
 public:
-    Rental(const Vehicle& vehicle): vehicle(vehicle){
+    Rental(Vehicle* vehicles): vehicle(vehicles){
         this -> setStatus("Available");
     }
 
@@ -67,24 +66,27 @@ public:
         daysRented = days;
     }
     void setStatus(const string &stat){
-        this->status = stat;
+        this -> status = stat;
     }
 
     // getter
-    string getStatus(){
+    string getStatus() const {
         return this -> status;
     }
-    string getType(){
-        return vehicle.getType();
+    string getType() const {
+        return vehicle -> getType();
     }
+    
 
     // display
     void displaytype(){
-        vehicle.display();
+        vehicle -> display();
         cout << "    Status: " << status << endl;
     }
-    // function
-
+    // calculator function
+    float rentFee() const {
+        return vehicle -> getDaysFee() * daysRented;
+    }
     
 };
 class Customer {
@@ -129,15 +131,15 @@ int main(){
     Truck truck2("Cargo van", "Chevralot Express", 90, 95);
     Truck truck3("Dump truck", "Peterbilt", 80, 300);
 
-    vehicles.push_back(car1);
-    vehicles.push_back(car2);
-    vehicles.push_back(car3);
-    vehicles.push_back(motobike1);
-    vehicles.push_back(motobike2);
-    vehicles.push_back(motobike3);
-    vehicles.push_back(truck1);
-    vehicles.push_back(truck2);
-    vehicles.push_back(truck3);
+    vehicles.push_back(&car1);
+    vehicles.push_back(&car2);
+    vehicles.push_back(&car3);
+    vehicles.push_back(&motobike1);
+    vehicles.push_back(&motobike2);
+    vehicles.push_back(&motobike3);
+    vehicles.push_back(&truck1);
+    vehicles.push_back(&truck2);
+    vehicles.push_back(&truck3);
 
     int choice;
     bool explore = true;
