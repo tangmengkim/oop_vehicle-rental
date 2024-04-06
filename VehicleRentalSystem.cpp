@@ -10,9 +10,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-// #include <limits>
-// #include <algorithm>
-// #include <conio.h>
+#include <limits>
+#include <algorithm>
+#include <conio.h>
 using namespace std;
 
 
@@ -301,7 +301,7 @@ int main(){
             }
         }
     }
-    // getch();
+    getch();
     return 0;
 }
 // =====End Main=====
