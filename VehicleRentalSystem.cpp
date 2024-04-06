@@ -10,6 +10,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
+// #include <limits>
+// #include <algorithm>
+// #include <conio.h>
 using namespace std;
 
 
@@ -155,7 +158,7 @@ public:
             cout << "===Rental Unsuccess! Try Again!" << endl;
         }
     }
-    void returnVehicle(Rental &vehicleRe){
+    void returnedVehicle(Rental &vehicleRe){
         int index = 0;
         for (Rental &vehicle : rentedVehicle){
             if (vehicle.getModel() == vehicleRe.getModel()){
@@ -168,13 +171,24 @@ public:
             rentedVehicle.erase(rentedVehicle.begin() + (index - 1));
         }
     }
+    // Use to display all Vehicle is rented
+    void displayRented() {
+        int i =1;
+        for(Rental& vehicle : rentedVehicle){
+        cout << i <<". ";
+        vehicle.display();
+        cout << "   Rented : "<<vehicle.getDayRented() <<"Days";
+        cout << " = " << vehicle.rentalFee() <<"$" <<endl;
+        i++;
+        }
+    }
     // Display
-    void displayRentals() const{
+    void displayTotal() {
         int i = 1;
         cout << "Name: " << name << endl;
         cout << "================" << endl;
         double totalFees = 0;
-        for (Rental vehicle : rentedVehicle){
+        for (Rental& vehicle : rentedVehicle){
             cout << i <<". ";
             vehicle.display();
             cout << " Rental fee: $" << vehicle.rentalFee() << endl;
@@ -184,14 +198,7 @@ public:
         }
         cout << " Fee sum: $" << totalFees << endl;
     }
-    // Use to display all Vehicle is rented
-    void displayRented(){
-        for(Rental& vehicle : rentedVehicle){
-        vehicle.display();
-        cout << "   Rented : "<<vehicle.getDayRented() <<"Days";
-        cout << " = " << vehicle.rentalFee() <<"$" <<endl;
-        }
-    }
+    
     Rental getRentedVehicle(const int &index){
         return rentedVehicle[index];
     }
@@ -201,14 +208,14 @@ public:
 };
 
 // main funtion initializer
+int getIntInput();
 bool closeShop();
 void displayMenu();
-int getIntInput();
+void displayType (const vector<string> types);
 void showCustomers(const vector<Customer>& customers);
 vector<string> getUniqueVehicleType(const vector<Rental>& vehicles);
 void rentalVehicle(vector<Rental>& vehicles,Customer& currentCustomer);
 void returnVehicle(vector<Rental>& vehicles, Customer& currentCustomer);
-void displayType (const vector<string> types);
 
 int main(){
     vector<Customer> customers;
@@ -282,7 +289,7 @@ int main(){
                     break;
                 case 3:
                     cout << "Selected \"View Rented Vehicle\": " << endl;
-                    currentCustomer.displayRentals();
+                    currentCustomer.displayTotal();
                     break;
                 default:
                     exit = true;
@@ -294,6 +301,7 @@ int main(){
             }
         }
     }
+    // getch();
     return 0;
 }
 // =====End Main=====
@@ -396,12 +404,8 @@ void rentalVehicle(vector<Rental> &vehicles, Customer &currentCustomer){
 
 void returnVehicle(vector<Rental>& vehicles, Customer& currentCustomer){
     int totalVehicle = currentCustomer.getRentedVehicleCount();
-        // Display Rented Vehicle
-        for(int i = 0; i < totalVehicle; i++){
-            Rental vehicle = currentCustomer.getRentedVehicle(i);
-            cout << i + 1 <<". ";
-            currentCustomer.displayRented();
-        }
+    // Display Rented Vehicle
+    currentCustomer.displayRented();
     // Select Vehicle to Return
     if (totalVehicle > 0){
         cout << "Select your Vehicle : ";  
@@ -409,8 +413,8 @@ void returnVehicle(vector<Rental>& vehicles, Customer& currentCustomer){
         if (index <= totalVehicle){
             Rental vehicleRe = currentCustomer.getRentedVehicle(index - 1);
             cout << endl;
-            cout << "You have selected "<< vehicleRe.getModel();
-            currentCustomer.returnVehicle(vehicleRe);
+            cout << "You have return "<< vehicleRe.getModel() << "." <<endl;
+            currentCustomer.returnedVehicle(vehicleRe);
             for (Rental& vehicle : vehicles){
                 if(vehicle.getModel() == vehicleRe.getModel()){
                     vehicle.setStatus("Returned");
