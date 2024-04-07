@@ -164,10 +164,10 @@ public:
             if (vehicle.getModel() == vehicleRe.getModel()){
                 vehicle.setStatus("Returned");
                 break;
-            }
+            }else{
             index++;
+            }
         }
-
             //Use try catch to erase vector array obj
         
         try{
