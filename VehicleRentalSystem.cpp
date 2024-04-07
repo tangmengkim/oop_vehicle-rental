@@ -1,10 +1,10 @@
 /*
     Group 6 ES1
-    1. Hak Layheang     ID: B20235881
-    2. Heach Tevin      ID: B20236016
-    3. Khat Panhadath   ID: B20232604
-    4. Tang MengKim     ID: B20231674
-    5. Sung Sovansak    ID: B20231056
+    1. Hak Layheang     ID: B20235881 {Class design,Constructor}
+    2. Heach Tevin      ID: B20236016 {Create Switch case}
+    3. Khat Panhadath   ID: B20232604 {Create some function }
+    4. Tang MengKim     ID: B20231674 {Create Initializer main function and main function}
+    5. Sung Sovansak    ID: B20231056 {Class design,inheritant}
 */
 
 #include <iostream>
@@ -167,9 +167,18 @@ public:
             }
             index++;
         }
-        if (rentedVehicle.size() > 0){
-            rentedVehicle.erase(rentedVehicle.begin() + (index - 1));
+
+            //Use try catch to erase vector array obj
+        
+        try{
+            if(rentedVehicle.size() > 0){  
+                rentedVehicle.erase(rentedVehicle.begin() + index);
+                cout << index << endl;
+            }
+        } catch(const std::exception& e){
+            std::cerr << e.what() << '\n';
         }
+        
     }
     // Use to display all Vehicle is rented
     void displayRented() {
@@ -422,6 +431,8 @@ void returnVehicle(vector<Rental>& vehicles, Customer& currentCustomer){
                     break;
                 }
             }
+        }else{
+            cout << "Vehicle not found!";
         }
     }
     else {
